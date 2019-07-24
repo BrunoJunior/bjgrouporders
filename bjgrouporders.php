@@ -31,14 +31,13 @@ if (!defined('_PS_VERSION_')) {
 // Autoload
 require _PS_MODULE_DIR_ . 'bjgrouporders/autoload.php';
 use bdesprez\psmodulefwk\MyModule;
-use bdesprez\psmodulefwk\TabInstaller;
+use bdesprez\bjgrouporders\Configuration;
 
 /**
- * Module XLPOS pour Export des images des produits
+ *
  */
-class bjgrouporders extends MyModule
+class BJGroupOrders extends MyModule
 {
-    private $tabInstaller;
 
     /**
      * Constructeur
@@ -50,35 +49,16 @@ class bjgrouporders extends MyModule
         parent::__construct();
         $this->displayName = $this->l('BJ Customer groups orders');
         $this->description = $this->l('Listing of orders grouped by customer groups ');
-        $this->tabInstaller = (new TabInstaller($this, 'AdminParentOrders'))
-            ->addController(AdminBjGroupOrderController::class, 'Groupées');
-        $this->tabs = $this->tabInstaller->toPsTabs();
-    }
-
-    /**
-     * Tabs
-     * @return bool
-     */
-    protected function complementaryInstall()
-    {
-        return $this->tabInstaller->install();
-    }
-
-    /**
-     * @return bool
-     * @throws PrestaShopException
-     */
-    protected function complementaryUninstall()
-    {
-        return $this->tabInstaller->uninstall();
     }
 
     /**
      * Pas de conf
-     * @return array|\bdesprez\psmodulefwk\conf\ModuleConfiguration
+     * @return array|\bdesprez\psmodulefwk\conf\ModuleConfiguration[]
      */
     protected function getModuleConfigurations()
     {
-        return [];
+        return [
+            new Configuration($this)
+        ];
     }
 }
