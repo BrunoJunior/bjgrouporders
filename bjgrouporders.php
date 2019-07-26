@@ -39,7 +39,6 @@ use bdesprez\psmodulefwk\TabInstaller;
  */
 class BJGroupOrders extends MyModule
 {
-
     /**
      * Constructeur
      * @throws PrestaShopException
@@ -47,13 +46,14 @@ class BJGroupOrders extends MyModule
     public function __construct()
     {
         $this->version = '0.0.1';
+        $this->tabs = (new TabInstaller($this, TabInstaller::PARENT_SELL_ORDERS))
+            ->addController(AdminBjGroupOrderController::class, ['en' => 'Orders by group', 'fr' => 'Par groupe'])
+            ->toPsTabs();
         parent::__construct();
         $this->ps_versions_compliancy = array('min' => '1.7.0.0', 'max' => '1.7.99.99');
         $this->displayName = $this->l('BJ Customer groups orders');
         $this->description = $this->l('Listing of orders grouped by customer groups ');
-        $this->tabs = (new TabInstaller($this, TabInstaller::PARENT_SELL_ORDERS))
-            ->addController(AdminBjGroupOrderController::class, $this->l('Orders by group'))
-            ->toPsTabs();
+        $this->getLogger()->log('Tabs : ' . json_encode($this->tabs));
     }
 
     /**
