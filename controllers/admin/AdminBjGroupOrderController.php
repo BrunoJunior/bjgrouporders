@@ -5,7 +5,7 @@ require_once _PS_MODULE_DIR_ . '/bjgrouporders/autoload.php';
 
 use bdesprez\psmodulefwk\helpers\Conf;
 use bdesprez\bjgrouporders\Configuration;
-use xlsoft\fwk\helpers\LoggerFactory;
+use bdesprez\psmodulefwk\helpers\LoggerFactory;
 
 /**
  * @see AdminManufacturersController for multiple lists
