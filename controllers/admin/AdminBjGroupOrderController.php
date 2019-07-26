@@ -46,7 +46,7 @@ class AdminBjGroupOrderController extends ModuleAdminController
 		osl.`name` AS `osname`,
 		os.`color`,
 		IF(a.valid, 1, 0) badge_success,
-		GROUP_CONCAT(od.`id_order_detail` separator \',\') AS `detail`
+		GROUP_CONCAT(od.`id_order_detail` separator \',\') AS `content`
 		';
 
         $this->_join = '
