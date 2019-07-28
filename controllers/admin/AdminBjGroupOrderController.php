@@ -197,7 +197,7 @@ class AdminBjGroupOrderController extends ModuleAdminController
     {
         $tpl = $this->context->smarty->createTemplate($this->getTemplatePath() . 'setavailable.tpl', $this->context->smarty);
         $tpl->assign([
-            'label' => 'Available',
+            'label' => $this->l('Available'),
             'action' => 'setAvailable',
             'url' => $this->context->link->getAdminLink($this->controller_name, true, [], ['order id' => $id])
         ]);

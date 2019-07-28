@@ -14,3 +14,4 @@ $_MODULE['<{bjgrouporders}prestashop>adminbjgroupordercontroller_f15c1cae7882448
 $_MODULE['<{bjgrouporders}prestashop>adminbjgroupordercontroller_96b0141273eabab320119c467cdcaf17'] = 'Total';
 $_MODULE['<{bjgrouporders}prestashop>adminbjgroupordercontroller_ec53a8c4f07baed5d8825072c89799be'] = 'Statut';
 $_MODULE['<{bjgrouporders}prestashop>adminbjgroupordercontroller_44749712dbec183e983dcd78a7736c41'] = 'Date';
+$_MODULE['<{bjgrouporders}prestashop>adminbjgroupordercontroller_78945de8de090e90045d299651a68a9b'] = 'Disponible';
