@@ -3,9 +3,10 @@
 // Autoloader
 require_once _PS_MODULE_DIR_ . '/bjgrouporders/autoload.php';
 
+use bdesprez\bjgrouporders\AvailableProcessAjax;
 use bdesprez\psmodulefwk\helpers\Conf;
 use bdesprez\bjgrouporders\Configuration;
-use bdesprez\psmodulefwk\helpers\LoggerFactory;
+use PrestaShop\PrestaShop\Core\Localization\Exception\LocalizationException;
 
 /**
  * @see AdminManufacturersController for multiple lists
@@ -18,6 +19,12 @@ class AdminBjGroupOrderController extends ModuleAdminController
      * @var array|mixed
      */
     private $groupIds = [];
+
+    /**
+     * Liste des status à afficher
+     * @var array|mixed
+     */
+    private $statusId = [];
 
     /**
      * @var array
@@ -33,8 +40,13 @@ class AdminBjGroupOrderController extends ModuleAdminController
         $this->lang = false;
         $this->deleted = false;
         $this->context = Context::getContext();
+        $this->filter = false;
+        $this->row_hover = false;
+        $this->list_simple_header = true;
+        $this->list_no_link = true;
 
         $this->groupIds = Conf::getValeur(Configuration::GROUPS);
+        $this->statusId = Conf::getValeur(Configuration::STATUSES_DISPLAYED);
         $statuses = OrderState::getOrderStates((int)$this->context->language->id);
         foreach ($statuses as $status) {
             $this->statuses_array[$status['id_order_state']] = $status['name'];
@@ -59,11 +71,6 @@ class AdminBjGroupOrderController extends ModuleAdminController
         $this->_group = 'GROUP BY a.`id_order`';
         $this->_orderBy = 'id_order';
         $this->_orderWay = 'DESC';
-        if (empty($this->groupIds)) {
-            $this->_where = ' AND 1 = 0';
-        } else {
-            $this->_where = ' AND cg.`id_group` = ' . (int) reset($this->groupIds);
-        }
 
         parent::__construct();
 
@@ -103,6 +110,37 @@ class AdminBjGroupOrderController extends ModuleAdminController
                 'type' => 'datetime'
             )
         );
+
+        $this->addRowAction('available');
+    }
+
+    private function setWhere($groupId)
+    {
+        if (empty($this->statusId) ) {
+            $this->_where = ' AND 1 = 0';
+        } else {
+            $this->_where = ' AND cg.`id_group` = ' .
+                (int) $groupId .
+                ' AND os.`id_order_state` IN(' .
+                implode(',', $this->statusId)
+                . ')';
+        }
+    }
+
+    public function initListGroups()
+    {
+        foreach ($this->groupIds as $groupId) {
+            $this->list_id = "orders_$groupId";
+            $this->toolbar_title = (new Group($groupId))->name;
+            $this->context->smarty->assign('title_list', $this->toolbar_title);
+            $this->setWhere($groupId);
+            $this->content .= parent::renderList();
+        }
+    }
+
+    public function renderList()
+    {
+        $this->initListGroups();
     }
 
     /**
@@ -111,6 +149,7 @@ class AdminBjGroupOrderController extends ModuleAdminController
      * @return string
      * @throws PrestaShopDatabaseException
      * @throws PrestaShopException
+     * @throws LocalizationException
      */
     public static function setOrderCurrency($echo, $tr)
     {
@@ -127,13 +166,41 @@ class AdminBjGroupOrderController extends ModuleAdminController
      */
     public static function setOrderDetail($echo, $tr)
     {
-        $strTr = json_encode($tr);
-        LoggerFactory::getLogger('bjgrouporders')->log("setOrderDetail({$echo},{$strTr})", 'Controller');
         $html = "";
         foreach (explode(',', $echo) as $idDetail) {
             $detail = new OrderDetail($idDetail);
             $html .= "<li>{$detail->product_quantity} x {$detail->product_name}</li>";
         }
         return "<ul>$html</ul>";
+    }
+
+    /**
+     * @return mixed
+     */
+    public function ajaxProcessAction()
+    {
+        if (Tools::getValue('my_action') === 'setAvailable') {
+            (new AvailableProcessAjax($this->module))->process();
+        }
+    }
+
+
+
+    /**
+     * @param null $token
+     * @param int $id
+     * @return string
+     * @throws PrestaShopException
+     * @throws SmartyException
+     */
+    public function displayAvailableLink($token = null, $id)
+    {
+        $tpl = $this->context->smarty->createTemplate($this->getTemplatePath() . 'setavailable.tpl', $this->context->smarty);
+        $tpl->assign([
+            'label' => 'Available',
+            'action' => 'setAvailable',
+            'url' => $this->context->link->getAdminLink($this->controller_name, true, [], ['order id' => $id])
+        ]);
+        return $tpl->fetch();
     }
 }
