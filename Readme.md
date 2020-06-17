@@ -54,3 +54,32 @@ En cliquant sur le bouton "Disponible", la commande disparaitra de la liste et p
 En utilisant ingénieusement le fonctionnement des status de commande, vous pourrez avertir automatiquement le client par email que sa commande est prête.  
 ![Liste commandes groupées](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/commandes_groupees.jpg?raw=true)
 ## Avertir le client que sa commande est disponible automatiquement
+Pour faire ça de manière simple, nous allons utiliser un modèle d'email existant.  
+Nous allons utiliser le modèle "Package in transit" qui initialement permet de préciser au client que sa commande a été envoyée.  
+Nous allons commencer par modifier le titre et le contenu du message :
+ 1. Tout cela se passe dans les traductions  
+ !["International" > "Traduction"](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/menu_trad.jpg?raw=true)
+ 2. Choisissez les options suivantes:  
+ ![Options](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/options.jpg?raw=true)
+ 3. Modifier le titre, par exemple :  
+ ![Commande prete](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/commande_prete.jpg?raw=true)
+ 4. Enregistrer
+ 5. Retourner à l'étape 1
+ 6. Choisir ces nouvelles options :  
+ ![Options 2](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/options_2.jpg?raw=true)
+ 7. Chercher et cliquer sur "in_transit"  
+ ![in transit](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/in_transit.jpg?raw=true)
+ 8. Modifier le contenu dans le HTML et le texte brut pour y mettre le message à envoyer au client  
+ ![message](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/message.jpg?raw=true)
+ 9. Enregistrer
+Ces premières étapes nous ont permis de modifier le titre et le message qui sera envoyé aux clients pour l'email 'in_transit'.  
+Nous allons maintenant configurer le statut de commande "Disponible" pour envoyer automatiquement cet email au moment où la commande passe dans cet état.  
+ 1. Se rendre dans la liste des états de commandes  
+ ![menu etats](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/param_commandes.jpg?raw=true)  
+ ![onglet etats](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/onglet_etat.jpg?raw=true)
+ 2. Modifier l'état "Disponible"  
+ ![etat dispo](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/etat_dispo.jpg?raw=true)
+ 3. Renseigner les informations comme ceci :  
+ ![etat modifie](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/etat_modifie.jpg?raw=true)
+ 4. Enregistrer
+ Et voilà ! Dans la liste des commandes regroupées, lorsque vous cliquerez sur le bouton "Disponible", la commande changera d'état et un email sera envoyé au client.
