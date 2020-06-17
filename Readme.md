@@ -72,6 +72,7 @@ Nous allons commencer par modifier le titre et le contenu du message :
  8. Modifier le contenu dans le HTML et le texte brut pour y mettre le message à envoyer au client  
  ![message](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/message.jpg?raw=true)
  9. Enregistrer
+ 
 Ces premières étapes nous ont permis de modifier le titre et le message qui sera envoyé aux clients pour l'email 'in_transit'.  
 Nous allons maintenant configurer le statut de commande "Disponible" pour envoyer automatiquement cet email au moment où la commande passe dans cet état.  
  1. Se rendre dans la liste des états de commandes  
@@ -82,4 +83,5 @@ Nous allons maintenant configurer le statut de commande "Disponible" pour envoye
  3. Renseigner les informations comme ceci :  
  ![etat modifie](https://github.com/BrunoJunior/bjgrouporders/blob/master/documentation/etat_modifie.jpg?raw=true)
  4. Enregistrer
+ 
  Et voilà ! Dans la liste des commandes regroupées, lorsque vous cliquerez sur le bouton "Disponible", la commande changera d'état et un email sera envoyé au client.
